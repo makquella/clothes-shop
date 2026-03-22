@@ -66,7 +66,7 @@ DECON is currently presented as a **High-Fidelity Interactive Prototype** design
 ### ✅ Implemented (Frontend Features)
 - **Telegram Mini App Shell**: Seamless viewport integration, native closing behavior, and Haptics 2.0.
 - **Global State Management**: `Zustand` 5 handling complex cart calculations and multi-tier array filtering.
-- **Persistent Storage**: Shopping cart state is actively persisted to device `localStorage`.
+- **Local-First CMS**: The `/admin` dashboard utilizes `localStorage` persisted Zustand middleware to intercept the API catalog, allowing functional Archive & Stock mutation behaviors strictly on the user's device.
 - **Advanced Animations**: Framer Motion orchestration for page routing, spring physics, and magnetic buttons.
 - **Performance**: Hardware-accelerated CSS effects (X-Ray SVG filters, Liquid Aurora background).
 

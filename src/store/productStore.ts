@@ -1,33 +1,104 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { Product } from "@/types";
-import { products as fallbackProducts } from "@/data/products"; // Fallback for local testing without server
+import { products as fallbackProducts } from "@/data/products";
 
-interface ProductState {
+interface ProductOverrides {
+  archivedIds: string[];
+  stockOverrides: Record<string, boolean>;
+  priceOverrides: Record<string, number>;
+}
+
+interface ProductState extends ProductOverrides {
   products: Product[];
   isLoading: boolean;
   error: string | null;
+  
   fetchProducts: () => Promise<void>;
+  
+  // Admin CMS Actions
+  archiveProduct: (id: string) => void;
+  toggleProductStock: (id: string) => void;
+  updateProductPrice: (id: string, newPrice: number) => void;
 }
 
-export const useProductStore = create<ProductState>((set, get) => ({
-  products: [],
-  isLoading: false,
-  error: null,
-  fetchProducts: async () => {
-    // Prevent refetching if already loaded
-    if (get().products.length > 0) return;
-
-    set({ isLoading: true, error: null });
-    try {
-      const response = await fetch("/api/products");
-      if (!response.ok) throw new Error("Failed to fetch products");
+export const useProductStore = create<ProductState>()(
+  persist(
+    (set, get) => ({
+      products: [],
+      isLoading: false,
+      error: null,
       
-      const data = await response.json();
-      set({ products: data, isLoading: false });
-    } catch (error: any) {
-      console.error("API Fetch Error:", error);
-      // Graceful fallback to static data if the API is unreachable (e.g. standard local dev mode)
-      set({ products: fallbackProducts, isLoading: false, error: "Using local mockup data." });
+      archivedIds: [],
+      stockOverrides: {},
+      priceOverrides: {},
+
+      archiveProduct: (id) => {
+        set((state) => ({
+          archivedIds: [...state.archivedIds, id],
+          products: state.products.filter(p => p.id !== id)
+        }));
+      },
+
+      toggleProductStock: (id) => {
+        set((state) => {
+          const currentProduct = state.products.find(p => p.id === id);
+          if (!currentProduct) return state;
+          
+          const newStockStatus = !currentProduct.inStock;
+          
+          return {
+            stockOverrides: { ...state.stockOverrides, [id]: newStockStatus },
+            products: state.products.map(p => 
+              p.id === id ? { ...p, inStock: newStockStatus } : p
+            )
+          };
+        });
+      },
+
+      updateProductPrice: (id, newPrice) => {
+        set((state) => ({
+          priceOverrides: { ...state.priceOverrides, [id]: newPrice },
+          products: state.products.map(p => 
+            p.id === id ? { ...p, price: newPrice } : p
+          )
+        }));
+      },
+
+      fetchProducts: async () => {
+        set({ isLoading: true, error: null });
+        
+        let loadedData: Product[] = [];
+        try {
+          const response = await fetch("/api/products");
+          if (!response.ok) throw new Error("Failed to fetch products");
+          loadedData = await response.json();
+        } catch (error: any) {
+          console.error("API Fetch Error:", error);
+          loadedData = fallbackProducts;
+        }
+
+        // Apply Local-First Admin Overrides onto the fetched master catalog
+        const { archivedIds, stockOverrides, priceOverrides } = get();
+        
+        const mergedProducts = loadedData
+          .filter(p => !archivedIds.includes(p.id))
+          .map(p => ({
+            ...p,
+            inStock: stockOverrides[p.id] !== undefined ? (stockOverrides[p.id] as boolean) : p.inStock,
+            price: priceOverrides[p.id] !== undefined ? (priceOverrides[p.id] as number) : p.price
+          }));
+
+        set({ products: mergedProducts, isLoading: false });
+      },
+    }),
+    {
+      name: "decon-cms-storage",
+      partialize: (state) => ({
+        archivedIds: state.archivedIds,
+        stockOverrides: state.stockOverrides,
+        priceOverrides: state.priceOverrides
+      }) // Persist ONLY the admin overrides, not the heavy products array
     }
-  },
-}));
+  )
+);

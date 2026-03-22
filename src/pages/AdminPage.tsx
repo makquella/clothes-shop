@@ -4,7 +4,7 @@ import { formatPrice } from "@/data/products";
 import { motion } from "framer-motion";
 
 export function AdminPage() {
-  const { products, isLoading, fetchProducts } = useProductStore();
+  const { products, isLoading, fetchProducts, archiveProduct, toggleProductStock } = useProductStore();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -91,13 +91,20 @@ export function AdminPage() {
                   <td className="p-5 font-medium">{p.name}</td>
                   <td className="p-5 text-neon-blue font-semibold">{formatPrice(p.price)}</td>
                   <td className="p-5">
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-widest ${p.inStock ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+                    <button 
+                      onClick={() => toggleProductStock(p.id)}
+                      className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-widest transition-colors ${p.inStock ? 'bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/40' : 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/40'}`}
+                    >
                       {p.inStock ? "IN STOCK" : "SOLD OUT"}
-                    </span>
+                    </button>
                   </td>
                   <td className="p-5 text-right space-x-4">
-                    <button className="text-xs text-text-muted hover:text-neon-blue transition-colors uppercase tracking-widest font-semibold">Edit</button>
-                    <button className="text-xs text-neon-red/60 hover:text-neon-red transition-colors uppercase tracking-widest font-semibold">Archive</button>
+                    <button 
+                      onClick={() => archiveProduct(p.id)}
+                      className="text-xs text-neon-red/60 hover:text-neon-red transition-colors uppercase tracking-widest font-semibold"
+                    >
+                      Archive
+                    </button>
                   </td>
                 </tr>
               ))}
