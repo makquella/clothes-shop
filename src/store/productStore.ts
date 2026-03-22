@@ -7,6 +7,10 @@ interface ProductOverrides {
   archivedIds: string[];
   stockOverrides: Record<string, boolean>;
   priceOverrides: Record<string, number>;
+  adminMetrics: {
+    revenue: number;
+    pendingOrders: number;
+  };
 }
 
 interface ProductState extends ProductOverrides {
@@ -15,6 +19,7 @@ interface ProductState extends ProductOverrides {
   error: string | null;
   
   fetchProducts: () => Promise<void>;
+  addOrderMetric: (orderTotal: number) => void;
   
   // Admin CMS Actions
   archiveProduct: (id: string) => void;
@@ -32,6 +37,16 @@ export const useProductStore = create<ProductState>()(
       archivedIds: [],
       stockOverrides: {},
       priceOverrides: {},
+      adminMetrics: { revenue: 142500, pendingOrders: 14 },
+
+      addOrderMetric: (total) => {
+        set((state) => ({
+          adminMetrics: {
+            revenue: state.adminMetrics.revenue + total,
+            pendingOrders: state.adminMetrics.pendingOrders + 1
+          }
+        }));
+      },
 
       archiveProduct: (id) => {
         set((state) => ({
@@ -97,7 +112,8 @@ export const useProductStore = create<ProductState>()(
       partialize: (state) => ({
         archivedIds: state.archivedIds,
         stockOverrides: state.stockOverrides,
-        priceOverrides: state.priceOverrides
+        priceOverrides: state.priceOverrides,
+        adminMetrics: state.adminMetrics
       }) // Persist ONLY the admin overrides, not the heavy products array
     }
   )

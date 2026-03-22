@@ -4,7 +4,7 @@ import { formatPrice } from "@/data/products";
 import { motion } from "framer-motion";
 
 export function AdminPage() {
-  const { products, isLoading, fetchProducts, archiveProduct, toggleProductStock } = useProductStore();
+  const { products, isLoading, fetchProducts, archiveProduct, toggleProductStock, adminMetrics } = useProductStore();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -60,11 +60,11 @@ export function AdminPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 relative z-10">
         <div className="glass-card p-6">
           <p className="text-text-muted text-xs uppercase tracking-widest mb-2 font-semibold">Total Revenue (24h)</p>
-          <p className="font-display text-4xl text-white drop-shadow-md">142,500 ₴</p>
+          <p className="font-display text-4xl text-white drop-shadow-md">{formatPrice(adminMetrics.revenue)}</p>
         </div>
         <div className="glass-card p-6">
           <p className="text-text-muted text-xs uppercase tracking-widest mb-2 font-semibold">Pending Orders</p>
-          <p className="font-display text-4xl text-neon-blue drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">14</p>
+          <p className="font-display text-4xl text-neon-blue drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">{adminMetrics.pendingOrders}</p>
         </div>
         <div className="glass-card p-6">
           <p className="text-text-muted text-xs uppercase tracking-widest mb-2 font-semibold">Active Products</p>

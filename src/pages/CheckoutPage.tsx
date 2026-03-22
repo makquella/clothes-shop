@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/store/cartStore";
+import { useProductStore } from "@/store/productStore";
 import { formatPrice } from "@/data/products";
 import type { CheckoutFormData } from "@/types";
 import { AutocompleteInput } from "@/components/AutocompleteInput";
@@ -23,6 +24,7 @@ const initialForm: CheckoutFormData = {
 export function CheckoutPage() {
   const navigate = useNavigate();
   const { items, getTotal, clearCart } = useCartStore();
+  const { addOrderMetric } = useProductStore();
   const [form, setForm] = useState<CheckoutFormData>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof CheckoutFormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -146,6 +148,7 @@ export function CheckoutPage() {
       if (!res.ok) throw new Error("API Dispatch Failed");
       
       try { window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred("success"); } catch {}
+      addOrderMetric(total);
       setSubmitted(true);
       clearCart();
     } catch (error) {
@@ -155,6 +158,7 @@ export function CheckoutPage() {
       } catch (e) {
         console.error("Order payload dropped locally:", orderData);
       }
+      addOrderMetric(total);
       setSubmitted(true);
       clearCart();
     } finally {
