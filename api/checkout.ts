@@ -21,16 +21,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Format order text for Telegram
   const itemsText = orderData.items?.map((i: any) => 
-    `- ${i.name} (Size: ${i.size}) x${i.quantity} = ${i.price * i.quantity} UAH`
+    `- ${i.name} (Size: ${i.size}) x${i.qty} = ${i.price * i.qty} UAH`
   ).join("\n");
+
+  const deliveryText = orderData.deliveryMethod === "nova_poshta" 
+    ? `Nova Poshta, ${orderData.city}, ${orderData.novaPoshtaBranch}`
+    : `Courier, ${orderData.city}, ${orderData.street} ${orderData.houseNumber}`;
 
   const messageText = `
 🛍️ *NEW ORDER [#${Math.floor(Math.random() * 10000)}]*
 ━━━━━━━━━━━━━━━
 *Customer*: ${orderData.firstName} ${orderData.lastName}
 *Phone*: ${orderData.phone}
-${orderData.email ? `*Email*: ${orderData.email}\n` : ''}
-*Delivery*: Nova Poshta, ${orderData.city}, ${orderData.branch}
+${orderData.email ? `*Email*: ${orderData.email}\n` : ''}*Delivery*: ${deliveryText}
 *Payment*: ${orderData.paymentMethod}
 ━━━━━━━━━━━━━━━
 *Items*:
