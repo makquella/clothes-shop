@@ -28,6 +28,7 @@ export function CheckoutPage() {
   const [form, setForm] = useState<CheckoutFormData>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof CheckoutFormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("Order submitted.");
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Async Logistics Options Cache
@@ -145,19 +146,34 @@ export function CheckoutPage() {
         body: JSON.stringify(orderData),
       });
 
-      if (!res.ok) throw new Error("API Dispatch Failed");
-      
+      const payload = await res.json().catch(() => ({} as { message?: string }));
+      if (!res.ok) {
+        setSuccessMessage(payload.message ?? "Failed to forward order to Telegram.");
+        addOrderMetric(total);
+        setSubmitted(true);
+        clearCart();
+        return;
+      }
+
       try { window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred("success"); } catch {}
+      setSuccessMessage(payload.message ?? "Order submitted.");
       addOrderMetric(total);
       setSubmitted(true);
       clearCart();
-    } catch (error) {
-      // Graceful local fallback to default Telegram `sendData` if the Vercel backend isn't mounted locally
+    } catch {
+      // Local preview fallback when Vercel functions are unavailable during portfolio/demo runs.
+      let fallbackMessage =
+        "Order submitted in preview mode. Telegram forwarding is not active in this environment.";
+
       try {
         window.Telegram?.WebApp?.sendData(JSON.stringify(orderData));
-      } catch (e) {
+      } catch {
         console.error("Order payload dropped locally:", orderData);
+        fallbackMessage =
+          "Order submitted in preview mode. Enable the backend or Telegram credentials for live forwarding.";
       }
+
+      setSuccessMessage(fallbackMessage);
       addOrderMetric(total);
       setSubmitted(true);
       clearCart();
@@ -182,11 +198,10 @@ export function CheckoutPage() {
           ✓
         </motion.div>
         <h1 className="font-display font-black text-3xl mb-3">
-          Order Placed
+          Order Submitted
         </h1>
-        <p className="text-text-secondary text-sm mb-8 max-w-[280px]">
-          We'll contact you shortly to confirm your order details and arrange
-          payment.
+        <p className="text-text-secondary text-sm mb-8 max-w-[320px] leading-relaxed">
+          {successMessage}
         </p>
         <button
           onClick={() => navigate("/")}

@@ -1,11 +1,20 @@
 {
-  "name": "avant-garde-mini-app",
+  "name": "decon-telegram-mini-app",
   "private": true,
   "version": "1.0.0",
+  "description": "Telegram Mini App MVP for a fashion store with catalog browsing, checkout, and Telegram order forwarding.",
+  "keywords": [
+    "telegram-mini-app",
+    "ecommerce",
+    "fashion-store",
+    "react",
+    "vercel"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "preview": "vite preview"
   },
   "dependencies": {

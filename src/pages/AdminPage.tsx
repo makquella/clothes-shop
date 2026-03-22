@@ -14,7 +14,7 @@ export function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simplified mock authentication for the prototype portfolio
+    // Intentional demo gate for portfolio review. This is not production authentication.
     if (password === "decon2024" || password === "admin") setIsAuthenticated(true);
   };
 
@@ -27,7 +27,10 @@ export function AdminPage() {
         <form onSubmit={handleLogin} className="glass-card p-8 w-full max-w-sm space-y-8">
           <div className="text-center space-y-2">
             <h1 className="font-display text-2xl font-black text-neon-blue tracking-widest">DECON // OS</h1>
-            <p className="text-xs text-text-muted uppercase tracking-widest">Admin Terminal Access</p>
+            <p className="text-xs text-text-muted uppercase tracking-widest">Demo Admin Access</p>
+            <p className="text-xs text-text-secondary leading-relaxed">
+              Demo-only access for portfolio review. This is not production authentication.
+            </p>
           </div>
           <input 
             type="password" 
@@ -47,11 +50,11 @@ export function AdminPage() {
       <header className="mb-10 flex justify-between items-end border-b border-white/10 pb-6 relative z-10">
         <div>
           <h1 className="font-display text-3xl font-black text-neon-blue">DECON // OS</h1>
-          <p className="text-text-muted text-sm tracking-widest uppercase mt-1">Inventory Management System</p>
+          <p className="text-text-muted text-sm tracking-widest uppercase mt-1">Local Prototype Dashboard</p>
         </div>
         <div className="text-right flex flex-col items-end gap-2">
           <p className="text-neon-red font-mono text-xs inline-flex items-center gap-2 px-3 py-1 bg-neon-red/10 rounded-full border border-neon-red/20 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-            <span className="w-2 h-2 rounded-full bg-neon-red animate-pulse" /> LIVE SYSTEM
+            <span className="w-2 h-2 rounded-full bg-neon-red animate-pulse" /> DEMO MODE
           </p>
           <div className="flex gap-4">
             <button onClick={() => resetCmsState()} className="text-xs text-text-muted hover:text-neon-red transition-colors underline underline-offset-4">Reset Prototype State</button>

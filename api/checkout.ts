@@ -10,12 +10,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const orderData = req.body;
 
-  // If no token is provided, just simulate success for the demo/portfolio
+  // Portfolio/demo mode: accept the checkout so the flow can be reviewed without Telegram credentials.
   if (!BOT_TOKEN || !CHAT_ID) {
     console.log("[Mock Checkout] Received order payload:", orderData);
     return res.status(200).json({ 
       success: true, 
-      message: "Order received in Demo Mode (No Telegram credentials provided)." 
+      message: "Order captured in demo mode. Configure Telegram credentials to forward orders." 
     });
   }
 
@@ -59,9 +59,9 @@ ${itemsText}
       throw new Error(`Telegram API Error`);
     }
 
-    return res.status(200).json({ success: true, message: "Order processed successfully." });
+    return res.status(200).json({ success: true, message: "Order forwarded to the manager in Telegram." });
   } catch (error: any) {
     console.error("Checkout dispatch failed:", error);
-    return res.status(500).json({ success: false, message: "Failed to dispatch order.", error: error.message });
+    return res.status(500).json({ success: false, message: "Failed to forward order to Telegram.", error: error.message });
   }
 }

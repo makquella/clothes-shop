@@ -1,29 +1,14 @@
 <div align="center">
   <img src="./public/images/github-hero.png" alt="DECON" width="100%" />
 
-  <h3>DECONSTRUCT. RECONSTRUCT. TRANSCEND.</h3>
-  <p><i>A Premium Avant-Garde E-Commerce Experience for Telegram</i></p>
-
-## 📱 HIGH-FIDELITY PROTOTYPE
-
-<table align="center" style="border-collapse: separate; border-spacing: 10px;">
-  <tr>
-    <td align="center" style="border: none;"><b>Home & Marquee</b><br><img src="./public/images/homepage.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Home Page"/></td>
-    <td align="center" style="border: none;"><b>Product Gallery</b><br><img src="./public/images/product_card.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Product Detail"/></td>
-    <td align="center" style="border: none;"><b>Filters & Navigation</b><br><img src="./public/images/filters.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Filters"/></td>
-  </tr>
-  <tr>
-    <td align="center" style="border: none;"><b>Cart & Checkout</b><br><img src="./public/images/cart.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Cart"/></td>
-    <td align="center" style="border: none;"><b>Checkout Form</b><br><img src="./public/images/checkout.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Checkout"/></td>
-    <td align="center" style="border: none;"><b>Manifesto / Vision</b><br><img src="./public/images/vision.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Vision"/></td>
-  </tr>
-</table>
+  <h1>DECON</h1>
+  <p><i>Telegram Mini App MVP for a premium clothing store experience</i></p>
 
   <p>
     <img src="https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react" alt="React 19" />
-    <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=for-the-badge&logo=tailwindcss" alt="Tailwind v4" />
-    <img src="https://img.shields.io/badge/Framer_Motion-11-ff0055?style=for-the-badge&logo=framer" alt="Framer Motion" />
     <img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Vite-6-646cff?style=for-the-badge&logo=vite" alt="Vite 6" />
+    <img src="https://img.shields.io/badge/Vercel-Serverless-black?style=for-the-badge&logo=vercel" alt="Vercel" />
   </p>
 
   <p>
@@ -32,74 +17,109 @@
   </p>
 </div>
 
----
+## Project Overview
 
-## 🌑 THE VOID AESTHETIC
+DECON is a Telegram Mini App MVP for an independent fashion brand or boutique clothing store. It shows how a merchant can present a curated catalog, let customers browse and filter products, collect checkout details, and forward orders to a manager inside Telegram without building a full custom e-commerce platform.
 
-DECON is a deconstructed fashion catalog built as a Telegram Mini App. It rejects traditional UI patterns in favor of an **obsidian-crimson philosophy**, merging archival fashion editorial aesthetics with high-performance web engineering.
+This project is designed as a portfolio-ready prototype: visually polished, functionally complete for a demo, and honest about what is mock-based versus production-ready. It is a strong fit for freelance client conversations around Telegram commerce, launch prototypes, and branded shopping experiences inside messaging ecosystems.
 
-## 🛠 ENGINEERING CHALLENGES
+The business problem it solves is simple: many small brands want a lightweight sales flow inside Telegram, where customers already communicate with the store team. DECON demonstrates that flow with a premium storefront, a practical checkout, and manager-facing order handoff through Telegram.
 
-### 1. Liquid Aurora Pipeline
+<table align="center" style="border-collapse: separate; border-spacing: 10px;">
+  <tr>
+    <td align="center" style="border: none;"><b>Home</b><br><img src="./public/images/homepage.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Home Page"/></td>
+    <td align="center" style="border: none;"><b>Catalog</b><br><img src="./public/images/product_card.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Catalog"/></td>
+    <td align="center" style="border: none;"><b>Checkout</b><br><img src="./public/images/checkout.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Checkout"/></td>
+  </tr>
+</table>
 
-A hardware-accelerated, scroll-reactive background system. Utilizing overlapping radial gradients with alpha-masking and dynamic `z-index` layering to create an atmospheric, amorphous void that breathes with user interaction.
+## Features
 
-### 2. X-Ray Blueprint Interaction
+- Telegram Mini App storefront with Telegram WebApp integration for viewport setup, header styling, and haptic feedback.
+- Product catalog with product detail pages, image galleries, sizes, styles, and stock visibility.
+- Filter experience for product styles, sizes, and price range.
+- Persistent cart built for a mobile-first Telegram browsing flow.
+- Checkout form with contact details, delivery method selection, and payment method selection.
+- Order forwarding to a manager via Telegram using the Bot API in `/api/checkout`.
+- Demo-safe checkout mode when Telegram credentials are not configured.
+- Mock logistics autocomplete for cities and Nova Poshta branches.
+- Demo admin dashboard at `/admin` for portfolio presentation, with local product overrides and reset flow.
+- Local persistence with Zustand so cart and admin demo state survive refreshes during a review session.
 
-A unique technical feature that allows users to peer "inside" the garments.
+## Tech Stack
 
-- **Logic**: Implemented a custom interaction engine that differentiates between 400ms long-press (activation) and standard scrolling to prevent UI flickering.
-- **Visual**: Real-time filter swapping using SVG FeTurbulence and contrast shifts.
+- React 19 + TypeScript
+- Vite for the frontend build and local development
+- Zustand for cart, filters, and local admin state
+- Framer Motion for motion and interaction polish
+- Tailwind CSS v4 utilities in the UI layer
+- Vercel Serverless Functions for `/api/products`, `/api/locations`, and `/api/checkout`
+- Telegram WebApp API for Mini App behavior and Telegram-native UX
 
-### 3. Magnetic UI Proximity
+## Architecture Overview
 
-Using **Framer Motion**, we developed a reusable `Magnetic` primitive. Action buttons (Add to Cart, Checkout) utilize continuous pointer-position tracking to create an "attraction" effect, lowering the friction for conversion through delightful micro-interaction.
+- Frontend: single-page React app rendered with Vite and routed with React Router.
+- Catalog data: loaded from `/api/products`, with a local seeded fallback so the storefront still works when the API is unavailable in local preview.
+- Logistics demo data: `/api/locations` returns mock city and branch suggestions used by checkout autocomplete.
+- Checkout handoff: the frontend posts checkout payloads to `/api/checkout`; that endpoint formats the order and sends it to a configured Telegram chat through the Telegram Bot API.
+- Admin/dashboard: `/admin` is a local prototype dashboard backed by Zustand persistence and `localStorage`, intended for demos rather than secure store operations.
 
-### 4. Glitch State Engine
+## Environment Variables
 
-Typography transforms into a "distorted" state upon hover/interaction. This is achieved via a multi-layered CSS animation system that randomizes character offsets and RGB splits while maintaining 60fps performance.
+Create a local `.env` file from `.env.example` and add the values below.
 
-## 🧪 ARCHITECTURE & FULL-STACK IMPLEMENTATION
+| Variable | What it does | Required |
+| --- | --- | --- |
+| `TELEGRAM_BOT_TOKEN` | Bot token used by `/api/checkout` to send order notifications through the Telegram Bot API. | Required for real Telegram order forwarding |
+| `TELEGRAM_CHAT_ID` | Telegram user, group, or channel chat ID that receives new order messages from the bot. | Required for real Telegram order forwarding |
 
-DECON transcends a standard frontend template by implementing a highly robust, Serverless micro-backend on Vercel, designed specifically for the Telegram Mini App ecosystem.
+Behavior notes:
 
-### ⚡ Frontend Engine
-- **Telegram Native**: Seamless viewport integration, native closing behavior, and Haptics 2.0.
-- **State Management**: `Zustand` 5 handling complex cart calculations and multi-tier array filtering.
-- **Advanced Animations**: Framer Motion orchestration for page routing, spring physics, and magnetic buttons.
-- **Hardware Acceleration**: Procedural CSS effects (X-Ray SVG filters, Liquid Aurora background).
+- If both variables are configured, successful checkout requests are forwarded to the manager in Telegram.
+- If the variables are missing, checkout still works in demo mode and returns a transparent demo message instead of pretending to send a real Telegram notification.
+- Do not commit your real `.env` file. This repository keeps only `.env.example` as a safe template.
 
-### ⚙️ Serverless Backend (Vercel)
-- **Zero-Config Deployment**: Three isolated Node.js API endpoints (`/api/products`, `/api/locations`, `/api/checkout`) built directly into the Vite/Vercel pipeline.
-- **Asynchronous Logistics**: The checkout form queries a mock logistics database across the Vercel Edge network in real-time, fetching autocomplete suggestions for delivery branches.
-- **Telegram Notification Pipeline**: Securely handles raw checkout payloads, formatting them into Markdown receipts, and dispatching them to the store owner's Telegram Inbox via injected `process.env` tokens to prevent credential leaks.
+## Local Setup
 
-### 🛡️ Local-First CMS Prototype
-- **Device-Bound Admin Dashboard**: An elite `/admin` ecosystem secured via a gatekeeper passcode (`admin`). 
-- **Zustand Persistence**: The dashboard intersects the async API catalog data stream utilizing `localStorage` and `zustand/persist`. This achieves a fully interactive CMS where users can manipulate metrics, mutate stock, or archive items—changes that instantly and natively sync across their respective frontend session without the latency or complexity of a remote cloud database.
-- **Self-Healing State**: Equipped with a 1-click Prototype Reset, allowing flawless, destructive sandbox testing during live portfolio interviews.
-
-## 🚀 INSTALLATION
+This repo uses `npm` (`package-lock.json` is included).
 
 ```bash
-# Clone the repository
 git clone https://github.com/makquella/clothes-shop.git
 cd clothes-shop
-
-# Install dependencies
 npm install
-
-# Start for local development
+cp .env.example .env
 npm run dev
 ```
 
-## 🌍 DEPLOYMENT
+Useful scripts:
 
-Designed to live in the **Telegram ecosystem**. Seamlessly deploys to **Vercel** or **Netlify**. Ensure the bot Menu Button points to your production URL.
+```bash
+npm run typecheck
+npm run build
+```
 
----
+Local development notes:
 
-<div align="center">
-  <p>Curated for the Archival Fashion Movement.</p>
-  <img src="https://img.shields.io/badge/License-MIT-gray?style=flat-square" alt="MIT License" />
-</div>
+- `npm run dev` is enough to review the storefront UI, cart flow, and most of the client-side experience in a browser.
+- In plain Vite local development, the Vercel serverless routes are not the primary runtime, so the catalog falls back to local seed data and checkout uses demo-safe behavior.
+- For end-to-end testing of the serverless checkout route with Telegram forwarding, use a Vercel preview/production deployment or run the project with Vercel local tooling.
+
+## Deployment
+
+Vercel is the primary deployment target for this MVP.
+
+1. Import the GitHub repository into Vercel.
+2. Add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the Vercel project environment settings.
+3. Deploy the project. The existing `vercel.json` rewrites support both the SPA frontend and the `/api/*` serverless routes.
+4. Open the deployed URL and verify the catalog, checkout, and `/admin` demo route.
+5. In BotFather, set the Telegram bot menu button or Mini App URL to the deployed frontend URL.
+6. Test a checkout to confirm the order is forwarded to the manager chat in Telegram.
+
+## Portfolio Notes / MVP Limitations
+
+- This is an MVP / prototype meant for portfolio presentation and early client validation, not a production SaaS platform.
+- Product catalog data is currently seeded in the codebase rather than managed by a database or external CMS.
+- Delivery autocomplete is mock/demo-based and is included to demonstrate UX flow, not live carrier integration.
+- The admin/dashboard flow is intentionally demo-only and uses a simplified local passcode gate. It should not be presented as production authentication.
+- Admin changes are stored in local browser state for demo purposes and are not shared across devices or team members.
+- Checkout forwards order details to a manager in Telegram, but it does not implement a production-grade payment, fulfillment, or order management backend.
