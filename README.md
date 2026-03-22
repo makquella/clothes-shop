@@ -4,6 +4,8 @@
   <h3>DECONSTRUCT. RECONSTRUCT. TRANSCEND.</h3>
   <p><i>A Premium Avant-Garde E-Commerce Experience for Telegram</i></p>
 
+  <img src="./public/images/showcase.webp" alt="UI Showcase" width="100%" style="border: 1px solid #333; border-radius: 8px; margin: 20px 0;" />
+
   <p>
     <img src="https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react" alt="React 19" />
     <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=for-the-badge&logo=tailwindcss" alt="Tailwind v4" />
@@ -52,12 +54,22 @@ Typography transforms into a "distorted" state upon hover/interaction. This is a
 - **State Management**: Zustand 5 (Zero-boilerplate)
 - **SDK**: `@telegram-apps/sdk-react` (Theme Synchronization, Haptic Feedback 2.0)
 
+## 🏗 ARCHITECTURE / FEATURES
+
+*   **React 19 + Vite**: High-performance concurrent rendering and ultra-fast HMR.
+*   **TypeScript**: Strict end-to-end type safety for all components and state models.
+*   **Zustand 5**: Zero-boilerplate global state management with `localStorage` persistence for the shopping cart.
+*   **Framer Motion**: Complex layout animations, spring-physics interactions, and gesture-driven UI components.
+*   **Telegram Mini App API**: Deep integration for theme synchronization and haptic feedback.
+*   **Mock Checkout**: Fully functional multi-step checkout form simulating data dispatch.
+
 ## 🚀 INSTALLATION
 
 ```bash
 # Clone the repository
 git clone https://github.com/makquella/clothes-shop.git
-https://mini-app-seven-livid.vercel.app
+cd clothes-shop
+
 # Install dependencies
 npm install
 

@@ -17,7 +17,7 @@ export function Layout() {
   }, []);
 
   return (
-    <div className="page-container relative overflow-hidden min-h-screen bg-transparent">
+    <div className="page-container relative min-h-screen bg-transparent">
       <div className="bg-aurora" />
       {/* SVG Refraction Filter (global) */}
       <svg className="absolute w-0 h-0" aria-hidden="true">

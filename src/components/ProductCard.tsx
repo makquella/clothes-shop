@@ -47,16 +47,18 @@ export function ProductCard({ product, index }: ProductCardProps) {
           onLoad={() => setImageLoaded(true)}
           loading="lazy"
           decoding="async"
-          style={{ y, scale: 1.03, willChange: "transform" }}
+          style={{ 
+            y, 
+            scale: 1.03, 
+            willChange: "transform",
+            WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect"
+          }}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
             imageLoaded ? "opacity-90 group-hover:opacity-100 group-hover:scale-[1.08]" : "opacity-0"
           }`}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `linear-gradient(180deg, transparent 0%, transparent 60%, #0a0a0a 100%)`,
-          }}
         />
         {/* Style badges */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">

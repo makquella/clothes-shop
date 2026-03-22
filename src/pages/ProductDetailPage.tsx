@@ -170,6 +170,13 @@ export function ProductDetailPage() {
                     rgba(0,0,0,0.85) 85%, 
                     rgba(0,0,0,0.6) 90%, 
                     rgba(0,0,0,0.3) 95%, 
+                    transparent 100%),
+                    linear-gradient(to right, 
+                    transparent 0%, 
+                    rgba(0,0,0,0.5) 5%, 
+                    black 15%, 
+                    black 85%, 
+                    rgba(0,0,0,0.5) 95%, 
                     transparent 100%)`,
                   maskImage: `linear-gradient(to bottom, 
                     black 0%, 
@@ -178,20 +185,16 @@ export function ProductDetailPage() {
                     rgba(0,0,0,0.85) 85%, 
                     rgba(0,0,0,0.6) 90%, 
                     rgba(0,0,0,0.3) 95%, 
-                    transparent 100%)`
-                }}
-              />
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: `linear-gradient(to bottom, 
+                    transparent 100%),
+                    linear-gradient(to right, 
                     transparent 0%, 
-                    transparent 75%, 
-                    rgba(10, 10, 10, 0.1) 80%, 
-                    rgba(10, 10, 10, 0.3) 85%, 
-                    rgba(10, 10, 10, 0.6) 90%, 
-                    rgba(10, 10, 10, 0.8) 95%, 
-                    #0a0a0a 100%)`,
+                    rgba(0,0,0,0.5) 5%, 
+                    black 15%, 
+                    black 85%, 
+                    rgba(0,0,0,0.5) 95%, 
+                    transparent 100%)`,
+                  WebkitMaskComposite: 'source-in',
+                  maskComposite: 'intersect'
                 }}
               />
               <AnimatePresence>
@@ -247,7 +250,7 @@ export function ProductDetailPage() {
            initial={{ y: 30, opacity: 0 }}
            animate={{ y: 0, opacity: 1 }}
            transition={{ delay: 0.2 }}
-           className="glass-elevated p-5 space-y-4 glow-blue-sm"
+           className="p-5 space-y-4 relative z-20"
         >
           <div>
             <h1 className="font-display font-black text-xl leading-tight mb-1">

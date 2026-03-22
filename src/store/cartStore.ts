@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { CartItem, Product } from "@/types";
 
 interface CartStore {
@@ -11,7 +12,9 @@ interface CartStore {
   getItemCount: () => number;
 }
 
-export const useCartStore = create<CartStore>((set, get) => ({
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
   items: [],
 
   addItem: (product, size) => {
@@ -68,4 +71,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
   getItemCount: () => {
     return get().items.reduce((count, item) => count + item.quantity, 0);
   },
-}));
+  }),
+  {
+    name: "decon-cart-storage", // unique name for localStorage key
+  }
+));
