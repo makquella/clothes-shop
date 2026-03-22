@@ -59,22 +59,28 @@ Using **Framer Motion**, we developed a reusable `Magnetic` primitive. Action bu
 
 Typography transforms into a "distorted" state upon hover/interaction. This is achieved via a multi-layered CSS animation system that randomizes character offsets and RGB splits while maintaining 60fps performance.
 
-## 📦 TECH STACK
+## 🧪 SCOPE & IMPLEMENTATION
 
-- **Framework**: React 19 (Concurrent Rendering)
-- **Styling**: Tailwind CSS v4 (Alpha)
-- **Animations**: Framer Motion 11
-- **State Management**: Zustand 5 (Zero-boilerplate)
-- **SDK**: `@telegram-apps/sdk-react` (Theme Synchronization, Haptic Feedback 2.0)
+DECON is currently presented as a **High-Fidelity Interactive Prototype** designed to showcase advanced front-end capabilities, Telegram SDK integration, and avant-garde UI/UX. It serves as the visual and interactive foundation for a premium e-commerce mini-app.
 
-## 🏗 ARCHITECTURE / FEATURES
+### ✅ Implemented (Frontend Features)
+- **Telegram Mini App Shell**: Seamless viewport integration, native closing behavior, and Haptics 2.0.
+- **Global State Management**: `Zustand` 5 handling complex cart calculations and multi-tier array filtering.
+- **Persistent Storage**: Shopping cart state is actively persisted to device `localStorage`.
+- **Advanced Animations**: Framer Motion orchestration for page routing, spring physics, and magnetic buttons.
+- **Performance**: Hardware-accelerated CSS effects (X-Ray SVG filters, Liquid Aurora background).
 
-*   **React 19 + Vite**: High-performance concurrent rendering and ultra-fast HMR.
-*   **TypeScript**: Strict end-to-end type safety for all components and state models.
-*   **Zustand 5**: Zero-boilerplate global state management with `localStorage` persistence for the shopping cart.
-*   **Framer Motion**: Complex layout animations, spring-physics interactions, and gesture-driven UI components.
-*   **Telegram Mini App API**: Deep integration for theme synchronization and haptic feedback.
-*   **Mock Checkout**: Fully functional multi-step checkout form simulating data dispatch.
+### 🚧 Mocked / Demo Data
+- **Catalog**: Products are momentarily sourced from a static TypeScript array rather than an external database.
+- **Delivery Grid**: Nova Poshta cities and branches utilize a localized mock dataset to simulate autocomplete search.
+- **Checkout Dispatch**: Form submissions serialize data perfectly, but resolve to `Telegram.WebApp.sendData` and developer console logging rather than a live payment processing endpoint.
+
+### 🛣 ROADMAP TO PRODUCTION
+To transition DECON into a fully operational commercial deployment, the following integration paths are defined:
+- [ ] **API Sourcing**: Migrate product and inventory initialization from the rigid `src/data` module to a dynamic asynchronous JSON/REST fetch from a Headless CMS (e.g., Strapi, Sanity).
+- [ ] **Live Logistics**: Integration with the Nova Poshta API for real-time city and branch validation.
+- [ ] **Telegram Bot Backend**: A dedicated webhook endpoint (Node.js/Python) to securely receive the checkout payload, generate the invoice, and coordinate with a payment gateway (e.g., Stripe, LiqPay, Telegram Stars).
+- [ ] **Admin Control**: Basic dashboard architecture for order management and catalog updates.
 
 ## 🚀 INSTALLATION
 
