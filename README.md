@@ -4,7 +4,20 @@
   <h3>DECONSTRUCT. RECONSTRUCT. TRANSCEND.</h3>
   <p><i>A Premium Avant-Garde E-Commerce Experience for Telegram</i></p>
 
-  <img src="./public/images/showcase.webp" alt="UI Showcase" width="100%" style="border: 1px solid #333; border-radius: 8px; margin: 20px 0;" />
+## 📱 HIGH-FIDELITY PROTOTYPE
+
+<table align="center" style="border-collapse: separate; border-spacing: 10px;">
+  <tr>
+    <td align="center" style="border: none;"><b>Home & Marquee</b><br><img src="./public/images/homepage.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Home Page"/></td>
+    <td align="center" style="border: none;"><b>Product Gallery</b><br><img src="./public/images/product_card.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Product Detail"/></td>
+    <td align="center" style="border: none;"><b>Filters & Navigation</b><br><img src="./public/images/filters.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Filters"/></td>
+  </tr>
+  <tr>
+    <td align="center" style="border: none;"><b>Cart & Checkout</b><br><img src="./public/images/cart.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Cart"/></td>
+    <td align="center" style="border: none;"><b>Checkout Form</b><br><img src="./public/images/checkout.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Checkout"/></td>
+    <td align="center" style="border: none;"><b>Manifesto / Vision</b><br><img src="./public/images/vision.PNG" width="100%" style="border-radius: 12px; margin-top: 8px;" alt="Vision"/></td>
+  </tr>
+</table>
 
   <p>
     <img src="https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react" alt="React 19" />
