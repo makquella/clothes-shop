@@ -36,7 +36,7 @@ export function HomePage() {
       }
       return true;
     });
-  }, [selectedSizes, selectedStyles, priceRange]);
+  }, [products, selectedSizes, selectedStyles, priceRange]);
 
   return (
     <div className="px-4 pt-2 pb-32">
