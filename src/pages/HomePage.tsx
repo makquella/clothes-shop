@@ -34,7 +34,7 @@ export function HomePage() {
   }, [selectedSizes, selectedStyles, priceRange]);
 
   return (
-    <div className="px-4 pt-2 pb-6">
+    <div className="px-4 pt-2 pb-32">
       {/* Hero */}
       <motion.header
         className="pt-6 pb-8"
