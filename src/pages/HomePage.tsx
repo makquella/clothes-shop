@@ -1,13 +1,18 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
 import { FilterBar } from "@/components/FilterBar";
 import { Marquee } from "@/components/Marquee";
-import { products } from "@/data/products";
 import { useFilterStore } from "@/store/filterStore";
+import { useProductStore } from "@/store/productStore";
 
 export function HomePage() {
   const { selectedSizes, selectedStyles, priceRange } = useFilterStore();
+  const { products, isLoading, fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -64,14 +69,31 @@ export function HomePage() {
       <Marquee />
 
       {/* Product Grid */}
-      {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 items-start">
+      <AnimatePresence mode="wait">
+        {isLoading && products.length === 0 ? (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex justify-center items-center py-20"
+          >
+            <div className="w-8 h-8 rounded-full border-t-2 border-neon-blue animate-spin" />
+          </motion.div>
+        ) : filteredProducts.length > 0 ? (
+          <motion.div 
+            key="grid"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-2 gap-3 items-start"
+          >
           {filteredProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}
-        </div>
-      ) : (
-        <motion.div
+          </motion.div>
+        ) : (
+          <motion.div
+            key="empty"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-center py-20"
@@ -86,7 +108,9 @@ export function HomePage() {
             Reset filters
           </button>
         </motion.div>
-      )}
+        )
+        }
+      </AnimatePresence>
 
       {/* Results count */}
       <div className="text-center mt-8 mb-4">

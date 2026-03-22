@@ -7,6 +7,7 @@ import { ProductDetailPage } from "@/pages/ProductDetailPage";
 import { CartPage } from "@/pages/CartPage";
 import { CheckoutPage } from "@/pages/CheckoutPage";
 import { ManifestoPage } from "@/pages/ManifestoPage";
+import { AdminPage } from "@/pages/AdminPage";
 import { CustomCursor } from "@/components/CustomCursor";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
               <Route path="checkout" element={<CheckoutPage />} />
               <Route path="manifesto" element={<ManifestoPage />} />
             </Route>
+            <Route path="admin" element={<AdminPage />} />
           </Routes>
         </AnimatePresence>
         <CustomCursor />

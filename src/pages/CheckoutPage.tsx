@@ -5,7 +5,6 @@ import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/data/products";
 import type { CheckoutFormData } from "@/types";
 import { AutocompleteInput } from "@/components/AutocompleteInput";
-import { MOCK_CITIES, MOCK_BRANCHES } from "@/data/locations";
 
 const initialForm: CheckoutFormData = {
   firstName: "",
@@ -27,6 +26,11 @@ export function CheckoutPage() {
   const [form, setForm] = useState<CheckoutFormData>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof CheckoutFormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Async Logistics Options Cache
+  const [cityOptions, setCityOptions] = useState<string[]>([]);
+  const [branchOptions, setBranchOptions] = useState<string[]>([]);
 
   const total = getTotal();
 
@@ -64,6 +68,34 @@ export function CheckoutPage() {
     }
   };
 
+  // Async API logic for logistics autocomplete
+  useEffect(() => {
+    if (form.city.length > 1) {
+      const timer = setTimeout(async () => {
+        try {
+          const res = await fetch(`/api/locations?q=${encodeURIComponent(form.city)}`);
+          if (res.ok) setCityOptions(await res.json());
+        } catch { }
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      setCityOptions([]);
+    }
+  }, [form.city]);
+
+  useEffect(() => {
+    if (form.city && form.deliveryMethod === "nova_poshta") {
+      const timer = setTimeout(async () => {
+        try {
+          const q = form.novaPoshtaBranch || "";
+          const res = await fetch(`/api/locations?city=${encodeURIComponent(form.city)}&q=${encodeURIComponent(q)}`);
+          if (res.ok) setBranchOptions(await res.json());
+        } catch { } // fail silently for UX fluidity
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [form.city, form.novaPoshtaBranch, form.deliveryMethod]);
+
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof CheckoutFormData, string>> = {};
     if (!form.firstName.trim()) newErrors.firstName = "First name is required";
@@ -88,10 +120,10 @@ export function CheckoutPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
+    setIsSubmitting(true);
 
-    // In production: send to bot via Telegram.WebApp.sendData()
     const orderData = {
       items: items.map((i) => ({
         id: i.product.id,
@@ -100,24 +132,34 @@ export function CheckoutPage() {
         qty: i.quantity,
         price: i.product.price,
       })),
-      total,
-      customer: form,
+      totalPrice: total,
+      ...form, // Flatten customer data to align with backend payload
     };
 
     try {
-      window.Telegram?.WebApp?.sendData(JSON.stringify(orderData));
-    } catch {
-      console.log("Order data:", orderData);
-    }
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
 
-    try {
-      window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred("success");
-    } catch {
-      // no-op
+      if (!res.ok) throw new Error("API Dispatch Failed");
+      
+      try { window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred("success"); } catch {}
+      setSubmitted(true);
+      clearCart();
+    } catch (error) {
+      // Graceful local fallback to default Telegram `sendData` if the Vercel backend isn't mounted locally
+      try {
+        window.Telegram?.WebApp?.sendData(JSON.stringify(orderData));
+      } catch (e) {
+        console.error("Order payload dropped locally:", orderData);
+      }
+      setSubmitted(true);
+      clearCart();
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setSubmitted(true);
-    clearCart();
   };
 
   if (submitted) {
@@ -266,7 +308,7 @@ export function CheckoutPage() {
                   placeholder="City (e.g., Kyiv)"
                   value={form.city}
                   onChange={(val) => updateField("city", val)}
-                  options={MOCK_CITIES}
+                  options={cityOptions}
                   required
                 />
                 <FieldError error={errors.city} />
@@ -275,10 +317,10 @@ export function CheckoutPage() {
               {form.deliveryMethod === "nova_poshta" ? (
                 <div>
                   <AutocompleteInput
-                    placeholder="Nova Poshta Branch"
+                    placeholder={form.city ? "Nova Poshta Branch" : "Select city first"}
                     value={form.novaPoshtaBranch || ""}
                     onChange={(val) => updateField("novaPoshtaBranch", val)}
-                    options={MOCK_BRANCHES[form.city] || []}
+                    options={branchOptions}
                     disabled={!form.city}
                     required
                   />
@@ -379,9 +421,10 @@ export function CheckoutPage() {
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={handleSubmit}
-            className="btn-neon w-full py-4 text-base"
+            disabled={isSubmitting}
+            className={`w-full py-4 text-base ${isSubmitting ? 'bg-[#1a1a1a] text-text-muted border border-white/10' : 'btn-neon'}`}
           >
-            Place Order — {formatPrice(total)}
+            {isSubmitting ? "Processing..." : `Place Order — ${formatPrice(total)}`}
           </motion.button>
         </div>
       </div>

@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { products, formatPrice } from "@/data/products";
+import { formatPrice } from "@/data/products";
 import { useCartStore } from "@/store/cartStore";
+import { useProductStore } from "@/store/productStore";
 import { Magnetic } from "@/components/Magnetic";
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore((s) => s.addItem);
+  const { products, isLoading, fetchProducts } = useProductStore();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -29,7 +31,8 @@ export function ProductDetailPage() {
   
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+    fetchProducts();
+  }, [id, fetchProducts]);
   const [flyingNode, setFlyingNode] = useState<{ src: string, startX: number, startY: number, endX: number, endY: number } | null>(null);
 
   const product = products.find((p) => p.id === id);
@@ -53,6 +56,14 @@ export function ProductDetailPage() {
       setSelectedSize(product.sizes[0]!);
     }
   }, [product, selectedSize]);
+
+  if (isLoading && !product) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-8 h-8 flex items-center justify-center rounded-full border-t-2 border-neon-blue animate-spin" />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
