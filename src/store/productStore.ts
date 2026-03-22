@@ -20,6 +20,7 @@ interface ProductState extends ProductOverrides {
   
   fetchProducts: () => Promise<void>;
   addOrderMetric: (orderTotal: number) => void;
+  resetCmsState: () => void;
   
   // Admin CMS Actions
   archiveProduct: (id: string) => void;
@@ -46,6 +47,16 @@ export const useProductStore = create<ProductState>()(
             pendingOrders: state.adminMetrics.pendingOrders + 1
           }
         }));
+      },
+
+      resetCmsState: () => {
+        set({
+          archivedIds: [],
+          stockOverrides: {},
+          priceOverrides: {},
+          adminMetrics: { revenue: 142500, pendingOrders: 14 }
+        });
+        get().fetchProducts();
       },
 
       archiveProduct: (id) => {

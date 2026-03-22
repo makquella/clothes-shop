@@ -4,7 +4,7 @@ import { formatPrice } from "@/data/products";
 import { motion } from "framer-motion";
 
 export function AdminPage() {
-  const { products, isLoading, fetchProducts, archiveProduct, toggleProductStock, adminMetrics } = useProductStore();
+  const { products, isLoading, fetchProducts, archiveProduct, toggleProductStock, adminMetrics, resetCmsState } = useProductStore();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -53,7 +53,10 @@ export function AdminPage() {
           <p className="text-neon-red font-mono text-xs inline-flex items-center gap-2 px-3 py-1 bg-neon-red/10 rounded-full border border-neon-red/20 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
             <span className="w-2 h-2 rounded-full bg-neon-red animate-pulse" /> LIVE SYSTEM
           </p>
-          <button onClick={() => setIsAuthenticated(false)} className="text-xs text-text-muted hover:text-white underline">Logout</button>
+          <div className="flex gap-4">
+            <button onClick={() => resetCmsState()} className="text-xs text-text-muted hover:text-neon-red transition-colors underline underline-offset-4">Reset Prototype State</button>
+            <button onClick={() => setIsAuthenticated(false)} className="text-xs text-text-muted hover:text-white transition-colors underline underline-offset-4">Logout</button>
+          </div>
         </div>
       </header>
 
