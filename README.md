@@ -59,28 +59,25 @@ Using **Framer Motion**, we developed a reusable `Magnetic` primitive. Action bu
 
 Typography transforms into a "distorted" state upon hover/interaction. This is achieved via a multi-layered CSS animation system that randomizes character offsets and RGB splits while maintaining 60fps performance.
 
-## 🧪 SCOPE & IMPLEMENTATION
+## 🧪 ARCHITECTURE & FULL-STACK IMPLEMENTATION
 
-DECON is currently presented as a **High-Fidelity Interactive Prototype** designed to showcase advanced front-end capabilities, Telegram SDK integration, and avant-garde UI/UX. It serves as the visual and interactive foundation for a premium e-commerce mini-app.
+DECON transcends a standard frontend template by implementing a highly robust, Serverless micro-backend on Vercel, designed specifically for the Telegram Mini App ecosystem.
 
-### ✅ Implemented (Frontend Features)
-- **Telegram Mini App Shell**: Seamless viewport integration, native closing behavior, and Haptics 2.0.
-- **Global State Management**: `Zustand` 5 handling complex cart calculations and multi-tier array filtering.
-- **Local-First CMS**: The `/admin` dashboard utilizes `localStorage` persisted Zustand middleware to intercept the API catalog, allowing functional Archive & Stock mutation behaviors strictly on the user's device.
+### ⚡ Frontend Engine
+- **Telegram Native**: Seamless viewport integration, native closing behavior, and Haptics 2.0.
+- **State Management**: `Zustand` 5 handling complex cart calculations and multi-tier array filtering.
 - **Advanced Animations**: Framer Motion orchestration for page routing, spring physics, and magnetic buttons.
-- **Performance**: Hardware-accelerated CSS effects (X-Ray SVG filters, Liquid Aurora background).
+- **Hardware Acceleration**: Procedural CSS effects (X-Ray SVG filters, Liquid Aurora background).
 
-### 🚧 Mocked / Demo Data
-- **Catalog**: Products are momentarily sourced from a static TypeScript array rather than an external database.
-- **Delivery Grid**: Nova Poshta cities and branches utilize a localized mock dataset to simulate autocomplete search.
-- **Checkout Dispatch**: Form submissions serialize data perfectly, but resolve to `Telegram.WebApp.sendData` and developer console logging rather than a live payment processing endpoint.
+### ⚙️ Serverless Backend (Vercel)
+- **Zero-Config Deployment**: Three isolated Node.js API endpoints (`/api/products`, `/api/locations`, `/api/checkout`) built directly into the Vite/Vercel pipeline.
+- **Asynchronous Logistics**: The checkout form queries a mock logistics database across the Vercel Edge network in real-time, fetching autocomplete suggestions for delivery branches.
+- **Telegram Notification Pipeline**: Securely handles raw checkout payloads, formatting them into Markdown receipts, and dispatching them to the store owner's Telegram Inbox via injected `process.env` tokens to prevent credential leaks.
 
-### 🛣 ROADMAP TO PRODUCTION
-To transition DECON into a fully operational commercial deployment, the following integration paths are defined:
-- [ ] **API Sourcing**: Migrate product and inventory initialization from the rigid `src/data` module to a dynamic asynchronous JSON/REST fetch from a Headless CMS (e.g., Strapi, Sanity).
-- [ ] **Live Logistics**: Integration with the Nova Poshta API for real-time city and branch validation.
-- [ ] **Telegram Bot Backend**: A dedicated webhook endpoint (Node.js/Python) to securely receive the checkout payload, generate the invoice, and coordinate with a payment gateway (e.g., Stripe, LiqPay, Telegram Stars).
-- [ ] **Admin Control**: Basic dashboard architecture for order management and catalog updates.
+### 🛡️ Local-First CMS Prototype
+- **Device-Bound Admin Dashboard**: An elite `/admin` ecosystem secured via a gatekeeper passcode (`admin`). 
+- **Zustand Persistence**: The dashboard intersects the async API catalog data stream utilizing `localStorage` and `zustand/persist`. This achieves a fully interactive CMS where users can manipulate metrics, mutate stock, or archive items—changes that instantly and natively sync across their respective frontend session without the latency or complexity of a remote cloud database.
+- **Self-Healing State**: Equipped with a 1-click Prototype Reset, allowing flawless, destructive sandbox testing during live portfolio interviews.
 
 ## 🚀 INSTALLATION
 
